@@ -20,6 +20,7 @@
             // import文の自動ソート
             "source.organizeImports": true
         },
+        // ルーラ表示
         "editor.rulers": [
             79,
         ],
@@ -35,6 +36,7 @@
     
     // black-formatter設定
     "black-formatter.args": [
+        // 行当たりの文字数(blackのデフォルトは88文字)
         "--line-length=79"
     ],
 
@@ -53,11 +55,17 @@
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     // pytest設定
     "python.testing.pytestArgs": [
+        // 単体試験ディレクトリパス
         "tests",
+        // カバレッジ出力対象ソースコードパス
         "--cov=src",
+        // Branchカバレッジ出力有効化
         "--cov-branch",
+        // XML形式のカバレッジ出力(coverage.xml)
         "--cov-report=xml",
+        // HTML形式のカバレッジ出力(htmlcov)
         "--cov-report=html",
+        // HTMLレポート出力
         "--html=report.html"
     ],
     // エディタ上のカバレッジ表示設定
