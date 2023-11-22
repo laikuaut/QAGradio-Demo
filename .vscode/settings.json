@@ -1,0 +1,70 @@
+
+{
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    },
+    // Python設定
+    "[python]": {
+        // Blackフォーマッターを利用
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        // 保存時のフォーマット適用
+        "editor.formatOnSave": true,
+        // 末尾改行を自動削除
+        "files.trimFinalNewlines": true,
+        // 末尾半角スペースを自動削除
+        "files.trimTrailingWhitespace": true,
+        // 半角スペースを可視化
+        "editor.renderWhitespace": "all",
+        // 保存時のアクション定義
+        "editor.codeActionsOnSave": {
+            // import文の自動ソート
+            "source.organizeImports": true
+        },
+        "editor.rulers": [
+            79,
+        ],
+    },
+    // Python言語サーバ指定
+    "python.languageServer": "Pylance",
+
+    // isort(importソート)を有効化
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    
+    // black-formatter設定
+    "black-formatter.args": [
+        "--line-length=79"
+    ],
+
+    //// pylanceの設定
+    // 型チェック有効化
+    "python.analysis.typeCheckingMode": "basic",
+    // 自動インポート有効化
+    "python.analysis.autoImportCompletions": true,
+
+    //// Pythonテスト設定
+    // testunitを無効化
+    "python.testing.unittestEnabled": false,
+    // pytestを無効化
+    "python.testing.pytestEnabled": true,
+    // ファイル保存時にテスト対象コードを自動的に探索
+    "python.testing.autoTestDiscoverOnSaveEnabled": true,
+    // pytest設定
+    "python.testing.pytestArgs": [
+        "tests",
+        "--cov=src",
+        "--cov-branch",
+        "--cov-report=xml",
+        "--cov-report=html",
+        "--html=report.html"
+    ],
+    // エディタ上のカバレッジ表示設定
+    // ガター(ブレークポイント等が表示される場所)でのカバレッジ表示有無(default: true)
+    "coverage-gutters.showGutterCoverage": true,
+    // エディタ行でのカバレッジ表示有無(default: false)
+    "coverage-gutters.showLineCoverage": true,
+    // ルーラーでのカバレッジ表示有無(default: false)
+    "coverage-gutters.showRulerCoverage": true
+}
