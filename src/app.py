@@ -45,7 +45,7 @@ def convert_md(source_text, answer_text):
             source_text,
         )
         if i == (len(answers) - 1):
-            yield source_text
+            yield source_text.replace("\n", "</br>")
         else:
             yield source_text + "\n\n" + ".." * (i + 1)
 
@@ -108,36 +108,23 @@ def extract_works(source_text):
 
 with gr.Blocks() as demo:
     source_text = gr.Textbox(label="原文", placeholder="原文を入力してください", lines=2)
-    with gr.Row():
-        auto_markdown = gr.Markdown(label="ハイライト")
-        auto_answer_text = gr.Textbox(
-            label="回答の候補",
-            placeholder="回答とする単語候補を出力します",
-            lines=10,
-            show_copy_button=True,
-        )
-
-        auto_question_text = gr.Textbox(
-            label="穴埋め問題(自動)",
-            placeholder="候補を元に穴埋め問題文が出力されます",
-            show_copy_button=True,
-            lines=10,
-        )
-
-    with gr.Row():
-        text_markdown = gr.Markdown(label="ハイライト")
-        answer_text = gr.Textbox(
-            label="問題の回答",
-            placeholder="問題の回答を改行区切りで入力してください",
-            lines=10,
-            show_copy_button=True,
-        )
-        question_text = gr.Textbox(
-            label="穴埋め問題",
-            placeholder="穴埋め問題文が出力されます",
-            show_copy_button=True,
-            lines=10,
-        )
+    with gr.Group():
+        with gr.Row():
+            with gr.Column():
+                gr.Markdown("原文のハイライト表示")
+                text_markdown = gr.Markdown()
+            answer_text = gr.Textbox(
+                label="問題の回答",
+                placeholder="問題の回答を改行区切りで入力してください",
+                lines=10,
+                show_copy_button=True,
+            )
+            question_text = gr.Textbox(
+                label="穴埋め問題",
+                placeholder="穴埋め問題文が出力されます",
+                show_copy_button=True,
+                lines=10,
+            )
 
     with gr.Row():
         create = gr.Button("穴埋め問題を作成する")
@@ -145,21 +132,16 @@ with gr.Blocks() as demo:
 
     clear = gr.ClearButton([source_text, answer_text, question_text])
 
+    # 原文更新時のイベント
     source_text.change(trim, source_text, source_text, queue=False)
+    source_text.change(extract_works, source_text, answer_text, queue=False)
+
+    # 回答更新時のイベント
     answer_text.change(norm, answer_text, answer_text, queue=False)
-
-    source_text.change(
-        extract_works, source_text, auto_answer_text, queue=False
-    )
-    auto_answer_text.change(
-        convert, [source_text, auto_answer_text], auto_question_text
-    )
-    auto_answer_text.change(
-        convert_md, [source_text, auto_answer_text], auto_markdown
-    )
-
     answer_text.change(convert, [source_text, answer_text], question_text)
     answer_text.change(convert_md, [source_text, answer_text], text_markdown)
+
+    # ボタン押下のイベント
     create.click(
         fn=convert, inputs=[source_text, answer_text], outputs=question_text
     )
