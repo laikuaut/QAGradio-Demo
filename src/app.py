@@ -5,6 +5,7 @@ import MeCab
 
 wakati = MeCab.Tagger("-Owakati")
 tagger = MeCab.Tagger()
+re_hiragana = re.compile("[\u3041-\u309F]+")
 
 
 def copy(source_text: str) -> str:
@@ -60,6 +61,24 @@ def revert(source_text, answer_text):
             yield source_text + "\n\n" + ".." * (i + 1)
 
 
+def remove_duplicate_list(words):
+    remove_count = 0
+    tmp_words = words.copy()
+    for i, word in enumerate(tmp_words):
+        if word in tmp_words[0:i]:
+            print(f"remove_duplicate: {word}")
+            words.pop(i - remove_count)
+            remove_count += 1
+
+
+def remove_word_conditions(words):
+    tmp_words = words.copy()
+    for word in tmp_words:
+        if re_hiragana.fullmatch(word):
+            print(f"remove_conditions: {word}")
+            words.remove(word)
+
+
 def extract_works(source_text):
     if not source_text:
         return
@@ -82,6 +101,8 @@ def extract_works(source_text):
         # last_hinshi1 = hinshi1
         last_hinshi2 = hinshi2
 
+    remove_duplicate_list(words)
+    remove_word_conditions(words)
     return "\n".join(words)
 
 
@@ -137,10 +158,8 @@ with gr.Blocks() as demo:
         convert_md, [source_text, auto_answer_text], auto_markdown
     )
 
-    answer_text.change(convert, [source_text, auto_answer_text], question_text)
-    answer_text.change(
-        convert_md, [source_text, auto_answer_text], text_markdown
-    )
+    answer_text.change(convert, [source_text, answer_text], question_text)
+    answer_text.change(convert_md, [source_text, answer_text], text_markdown)
     create.click(
         fn=convert, inputs=[source_text, answer_text], outputs=question_text
     )
