@@ -5,22 +5,14 @@
     },
     // Python設定
     "[python]": {
-        // Blackフォーマッターを利用
         "editor.defaultFormatter": "ms-python.black-formatter",
-        // 保存時のフォーマット適用
         "editor.formatOnSave": true,
-        // 末尾改行を自動削除
         "files.trimFinalNewlines": true,
-        // 末尾半角スペースを自動削除
         "files.trimTrailingWhitespace": true,
-        // 半角スペースを可視化
         "editor.renderWhitespace": "all",
-        // 保存時のアクション定義
         "editor.codeActionsOnSave": {
-            // import文の自動ソート
             "source.organizeImports": true
         },
-        // ルーラ表示
         "editor.rulers": [
             79,
         ],
@@ -36,7 +28,6 @@
     
     // black-formatter設定
     "black-formatter.args": [
-        // 行当たりの文字数(blackのデフォルトは88文字)
         "--line-length=79"
     ],
 
@@ -47,25 +38,15 @@
     "python.analysis.autoImportCompletions": true,
 
     //// Pythonテスト設定
-    // testunitを無効化
     "python.testing.unittestEnabled": false,
-    // pytestを無効化
     "python.testing.pytestEnabled": true,
-    // ファイル保存時にテスト対象コードを自動的に探索
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
-    // pytest設定
     "python.testing.pytestArgs": [
-        // 単体試験ディレクトリパス
         "tests",
-        // カバレッジ出力対象ソースコードパス
         "--cov=src",
-        // Branchカバレッジ出力有効化
         "--cov-branch",
-        // XML形式のカバレッジ出力(coverage.xml)
         "--cov-report=xml",
-        // HTML形式のカバレッジ出力(htmlcov)
         "--cov-report=html",
-        // HTMLレポート出力
         "--html=report.html"
     ],
     // エディタ上のカバレッジ表示設定
