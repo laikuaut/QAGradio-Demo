@@ -1,11 +1,9 @@
 import pytest
 
-###
 # https://github.com/pytest-dev/pytest-html/blob/master/docs/user_guide.rst#modifying-the-results-table
 
-
 def pytest_html_results_table_header(cells):
-    cells.insert(2, "<th>試験概要</th>")
+    cells.insert(2, "<th>AAA</th>")
 
 
 def pytest_html_results_table_row(report, cells):
